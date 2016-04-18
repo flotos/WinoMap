@@ -1,0 +1,209 @@
+import {List, Map} from 'immutable';
+import {expect} from 'chai';
+import {
+setWinos, addWino, moveWino, delWino, setMainWino,
+togglePrecision, setScale
+} from '../src/core';
+
+describe('application logic', () => {
+  describe('winos', () => {
+    const winoState = List.of(
+        Map({
+          id: 1,
+          x:1,
+          y:1,
+          main: false
+        }),
+        Map({
+          id: 2,
+          x:2,
+          y:2,
+          main: false
+        })
+    );
+
+    describe('setWinos', () => {
+      it('replace the list of winos', () => {
+        const winos = List.of(
+          Map({
+            id: 3,
+            x:3,
+            y:3,
+            main: false
+          }),
+          Map({
+            id: 4,
+            x:4,
+            y:4,
+            main: false
+          })
+        );
+        const nextState = setWinos(winoState, winos);
+        expect(nextState).to.equal(List.of(
+            Map({
+              id: 3,
+              x:3,
+              y:3,
+              main: false
+            }),
+            Map({
+              id: 4,
+              x:4,
+              y:4,
+              main: false
+            })
+          ));
+
+
+      });
+    });
+    describe('addWino', () => {
+      it('adds a Wino', () => {
+
+        const wino = Map({
+          id: 5,
+          x:5,
+          y:5,
+          main: false
+        });
+
+        const nextState = addWino(winoState, wino);
+        expect(nextState).to.equal(List.of(
+            Map({
+              id: 1,
+              x:1,
+              y:1,
+              main: false
+            }),
+            Map({
+              id: 2,
+              x:2,
+              y:2,
+              main: false
+            }),
+            Map({
+              id: 5,
+              x:5,
+              y:5,
+              main: false
+            })
+          ));
+
+      });
+    });
+    describe('delWino', () => {
+      it('deletes a wino', () => {
+        const idToDelete = 1;
+        const nextState = delWino(winoState, idToDelete);
+        expect(nextState).to.equal(List.of(
+          Map({
+            id: 2,
+            x:2,
+            y:2,
+            main: false
+          })
+        ));
+      });
+    });
+    describe('moveWino', () => {
+      it('moves a wino', () => {
+        const x = 50, y = 25, idToMove = 1;
+        const nextState = moveWino(winoState, idToMove, x, y);
+        expect(nextState).to.equal(List.of(
+          Map({
+            id: 1,
+            x:50,
+            y:25,
+            main: false
+          }),
+          Map({
+            id: 2,
+            x:2,
+            y:2,
+            main: false
+          })
+        ));
+
+      });
+    });
+    describe('setMainWino', () => {
+      it('set Main wino by setting others to false', () => {
+        const state = Map({
+          winos: List.of(
+            Map({
+              id: 1,
+              x:1,
+              y:1,
+              main: false
+            }),
+            Map({
+              id: 2,
+              x:2,
+              y:2,
+              main: true
+            })
+          )
+        });
+        const idToMove = 1;
+        const nextState = setMainWino(winoState, idToMove);
+        expect(nextState).to.equal(List.of(
+          Map({
+            id: 1,
+            x:1,
+            y:1,
+            main: true
+          }),
+          Map({
+            id: 2,
+            x:2,
+            y:2,
+            main: false
+          })
+        ));
+
+      });
+    });
+  });
+
+  //togglePrecision, uploadPlan, setScale
+  describe('options', () => {
+    const optionState = Map({
+        precisionMode: "point",
+        plan: "bat_c",
+        scale: List.of(2,3)
+    });
+
+    describe('togglePrecision', () => {
+      it('changes the precision mode', () => {
+        const nextState = togglePrecision(optionState);
+        expect(nextState).to.equal(Map({
+          precisionMode: "circle",
+          plan: "bat_c",
+          scale: List.of(2,3)
+        }));
+
+
+      });
+    });
+    
+    /*describe('uploadPlan', () => {
+      it('change the plan', () => {
+      });
+    });*/
+
+    describe('setScale', () => {
+      it('changes the scale', () => {
+        const scaleX = 4, scaleY = 5;
+        const nextState = setScale(optionState, scaleX, scaleY);
+        expect(nextState).to.equal(Map({
+          precisionMode: "point",
+          plan: "bat_c",
+          scale: List.of(4,5)
+        }));
+
+
+      });
+    });
+  });
+
+});
