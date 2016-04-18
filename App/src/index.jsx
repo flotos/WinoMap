@@ -1,25 +1,34 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {createStore, applyMiddleware} from 'redux';
+import {createStore} from 'redux';
 import {Provider} from 'react-redux';
-import io from 'socket.io-client';
 import reducer from './reducer';
-//import {setState} from './action_creators';
-import remoteActionMiddleware from './remote_action_middleware';
 import {Map, List} from 'immutable';
 import {LocalizationContainer} from './components/Localization';
 
+const store = createStore(reducer);
 
-const socket = io(`${location.protocol}//${location.hostname}:8090`);
-socket.on('state', state =>
-	store.dispatch(setState(state))
-);
+//Set initial values (for testing purpose)
+var winos = List.of(
+	Map({
+		"id": 8,
+		"x":8,
+		"y":8,
+		"movable": false
+	}),
+	Map({
+		"id": 2,
+		"x":2,
+		"y":2,
+		"movable": true
+}));
 
-const createStoreWithMiddleware = applyMiddleware(
-	remoteActionMiddleware(socket)
-)(createStore);
+store.dispatch({
+	type: 'SET_WINOS',
+	winos: winos
+});
+store.dispatch({type: 'SET_MOVABLE', id:1})
 
-const store = createStoreWithMiddleware(reducer);
 
 ReactDOM.render(
 	<Provider store={store}>

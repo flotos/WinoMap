@@ -1,7 +1,10 @@
 import {List, Map} from 'immutable';
 
-export const INITIAL_STATE = Map();
-
+/**
+* Return the position in the "winos" list of a wino
+* @param: state Map store the state of the application
+* @param: idToFind integer id attribute of the wino
+*/
 function getRealWinoId(state, idToFind){
 	var length = state.size;
 	for(var i=0;i<state.size;i++){
