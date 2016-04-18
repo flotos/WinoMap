@@ -1,9 +1,7 @@
 import makeStore from './src/store';
-import startServer from './src/server';
 import {Map, List} from 'immutable';
 
 export const store = makeStore();
-startServer(store);
 var winos = List.of(
 	Map({
 		"id": 8,
@@ -18,8 +16,15 @@ var winos = List.of(
 		"movable": true
 }));
 
+
+let unsuscribe = store.suscribe(() =>
+	console.log(store.getState())
+);
+
 store.dispatch({
 	type: 'SET_WINOS',
 	winos: winos
 });
 store.dispatch({type: 'SET_MOVABLE', id:1})
+
+unsuscribe();

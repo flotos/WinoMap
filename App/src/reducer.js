@@ -29,14 +29,7 @@ function options(state = Map(), action){
   }
   return state;
 }
-/*
-const reducer = combineReducers({
-  winos,
-  options
-});
 
-export default reducer;
-*/
 export default function reducer(state = Map(), action) {
   return Map({
     winos: winos(state.get('winos'), action),
