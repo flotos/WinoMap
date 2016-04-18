@@ -20,15 +20,34 @@ export const Localization = React.createClass({
 			main: false
 		})
 
+		const newWinos = List.of(
+		  Map({
+		    id: 1,
+		    x:50,
+		    y:25,
+		    main: false
+		  }),
+		  Map({
+		    id: 2,
+		    x:2,
+		    y:2,
+		    main: false
+		  })
+		);
+
 		return <div className="localization">
 			{this.getWinos().map(wino =>
 				<h1>id : {wino.get('id')}<br/>
 					x: {wino.get('x')}<br/>
 					y: {wino.get('y')}<br/>
-					main: {wino.get('main')}<br/></h1>
+					main: {wino.get('main')}<br/>
+					<button onClick={() => this.props.delWino(wino.get('id'))}>deletes a wino</button>
+					<button onClick={() => this.props.moveWino(wino.get('id'),80,50)}>Move 1st wino</button>
+					<button onClick={() => this.props.setMainWino(wino.get('id'))}>set as main wino</button>
+				</h1>
 			)}
 			<button onClick={() => this.props.addWino(newWino)}>Add a wino</button>
-			<button onClick={() => this.props.moveWino(8,80,50)}>Move 1st wino</button>
+			<button onClick={() => this.props.setWinos(newWinos)}>set winos</button>
 		</div>;
 	}
 });

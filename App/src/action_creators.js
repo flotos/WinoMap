@@ -13,16 +13,16 @@ export function addWino(wino) {
 	};
 }
 
-export function delWinos(id) {
+export function delWino(id) {
 	return {
-		type: 'DEL_WINOS',
+		type: 'DEL_WINO',
 		id
 	};
 }
 
 export function moveWino(id, x, y) {
 	return {
-		type: 'SET_WINOS',
+		type: 'MOVE_WINO',
 		id,
 		x,
 		y

@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import {Map, List} from 'immutable';
-import { INITIAL_STATE, setWinos, addWino, delWino, moveWino, setMainWino, togglePrecision, setScale, setOptions } from './core';
+import {setWinos, addWino, delWino, moveWino, setMainWino, togglePrecision, setScale, setOptions } from './core';
 
 function winos(state = List(), action){
   switch(action.type){

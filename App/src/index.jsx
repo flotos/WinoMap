@@ -10,18 +10,19 @@ const store = createStore(reducer);
 
 //Set initial values (for testing purpose)
 var winos = List.of(
-	Map({
-		"id": 8,
-		"x":8,
-		"y":8,
-		"movable": false
-	}),
-	Map({
-		"id": 2,
-		"x":2,
-		"y":2,
-		"movable": true
-}));
+  Map({
+    id: 1,
+    x:50,
+    y:25,
+    main: false
+  }),
+  Map({
+    id: 2,
+    x:2,
+    y:2,
+    main: false
+  })
+);
 
 store.dispatch({
 	type: 'SET_WINOS',
