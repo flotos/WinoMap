@@ -1,12 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {createStore} from 'redux';
+import {createStore, applyMiddleware} from 'redux';
+import apiMiddleware from './apiMiddleware';
 import {Provider} from 'react-redux';
 import reducer from './reducer';
 import {Map, List} from 'immutable';
 import {ChartContainer} from './components/Chart';
 
-const store = createStore(reducer);
+const createStoreWithMiddleware = applyMiddleware(apiMiddleware)(createStore);
+const store = createStoreWithMiddleware(reducer);
 
 //Set initial values (for testing purpose)
 var winos = List.of(
@@ -30,6 +32,9 @@ store.dispatch({
 });
 store.dispatch({type: 'SET_MOVABLE', id:1})
 
+setInterval(() => {
+  store.dispatch({type: 'API_REQUEST'})
+}, 1000);
 
 ReactDOM.render(
 	<Provider store={store}>

@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import {Map, List} from 'immutable';
-import {setWinos, addWino, delWino, moveWino, setMainWino, togglePrecision, setScale, setOptions } from './core';
+import {setWinos, addWino, delWino, moveWino, setMainWino, togglePrecision, setScale, setOptions, apiRequest } from './core';
 
 function winos(state = List(), action){
   switch(action.type){
@@ -14,6 +14,8 @@ function winos(state = List(), action){
       return moveWino(state, action.id, action.x, action.y);
     case 'SET_MAIN_WINO':
       return setMainWino(state, action.id);
+    /*case 'API_REQUEST':
+      return apiRequest(state);*/
   }
   return state;
 }

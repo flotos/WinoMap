@@ -43,8 +43,12 @@ export const Chart = React.createClass({
 
   render: function() {
     return (
-      <div className="Chart">
-        <button onClick={() => this.props.moveWino(1,500,500)}>Move wino</button>
+      <div app_container>
+        <div buttonContainer>
+          <button>Set scale</button>
+        </div>
+        <div className="Chart">
+        </div>
       </div>
     );
   }
