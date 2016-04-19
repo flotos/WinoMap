@@ -22,6 +22,13 @@ describe('reducer', () => {
         precisionMode: "point",
         plan: "bat_c",
         scale: List.of(2,3)
+      }),
+      event: Map({
+        type: 'scale',
+        data: Map({
+          firstPoint: List.of(500,600),
+          secondPoint: List.of(150,300)
+        })
       })
     });
 
@@ -61,6 +68,13 @@ describe('reducer', () => {
           precisionMode: "point",
           plan: "bat_c",
           scale: List.of(2,3)
+        }),
+        event: Map({
+          type: 'scale',
+          data: Map({
+            firstPoint: List.of(500,600),
+            secondPoint: List.of(150,300)
+          })
         })
       }));
     });
@@ -81,6 +95,7 @@ describe('reducer', () => {
             main: false
           })
         )},
+        {type: 'EVENT_START', event: 'scale'},
         {type: 'SET_OPTIONS', 
           options: Map({
             precisionMode: "point",
@@ -136,6 +151,13 @@ describe('reducer', () => {
           precisionMode: "circle",
           plan: "bat_c",
           scale: List.of(2,3)
+        }),
+        event: Map({
+          type: 'scale',
+          data: Map({
+            firstPoint: '',
+            secondPoint: ''
+          })
         })
       }));
     });

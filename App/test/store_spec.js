@@ -7,7 +7,8 @@ describe('store', () => {
 		const store = makeStore();
 		expect(store.getState()).to.equal(Map({
 			winos: List(),
-			options: Map()
+			options: Map(),
+	        event: Map()
 		}));
 
 		store.dispatch({
@@ -42,7 +43,8 @@ describe('store', () => {
 	            movable: false
 	          })
 	        ),
-	        options: Map()
+	        options: Map(),
+	        event: Map()
 	    }));
 	});
 });

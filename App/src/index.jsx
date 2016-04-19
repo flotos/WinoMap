@@ -34,7 +34,7 @@ store.dispatch({type: 'SET_MOVABLE', id:1})
 
 setInterval(() => {
   store.dispatch({type: 'API_REQUEST'})
-}, 1000);
+}, 10000);
 
 ReactDOM.render(
 	<Provider store={store}>

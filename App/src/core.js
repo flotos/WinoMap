@@ -101,3 +101,50 @@ export function togglePrecision(state){
 export function setScale(state, newX, newY){
 	return state.set('scale', List.of(newX,newY));
 }
+
+/**
+* Manage what to do on the Event depending of the action
+* @param: state Map store the state of the application
+* @param: data string the action to handle
+*/
+export function setEventData(state, action) {
+    console.log('setEventData');
+	switch(action.type){
+
+		//If the map is clicked
+	    case 'MAP_CLICK':
+	    	//if the event scale is ongoing
+	    	if(state.getIn(['event','type']) == 'scale'){
+	    		//Test if we are defining the first or second point
+	    		if(state.getIn(['event','type','data','firstPoint']) == ''){
+	    			return state.setIn(['event','type','data','firstPoint'], 
+	    				List.of([action.x, action.y])
+	    			);
+	    		}else{
+	    			return state.setIn(['event','type','data','secondPoint'], 
+	    				List.of([action.x, action.y])
+	    			);
+	    		}
+	    	}
+	}
+}
+
+/**
+* Start an event with the right parameters
+* @param: state Map store the state of the application
+* @param: type string type of event
+*/
+export function eventStart(state, eventType){
+	let nextState = state;
+	switch(eventType){
+	    case 'scale':
+	    	nextState = Map({
+	    		type: 'scale',
+	    		data: Map({
+	    			firstPoint: '',
+	    			secondPoint: ''
+	    		})
+	    	});
+	}
+	return nextState
+}

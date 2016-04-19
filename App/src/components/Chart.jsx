@@ -20,13 +20,16 @@ export const Chart = React.createClass({
     updateD3Chart(el, this.getChartState());
   },
 
-
   getWinos: function() {
     return this.props.winos || []
   },
 
+  getEvents: function() {
+    return this.props.event || {}
+  },
+
   getMainWino: function() {
-    for(var i=0; i<this.getWinos().length; i++){
+    for(var i=0; i<this.getWinos().size; i++){
       if(this.getWinos().get(i).get('main') == true){
         return this.props.winos.get(i);
       }
@@ -36,16 +39,16 @@ export const Chart = React.createClass({
   getChartState: function() {
     return {
       mainWino: this.getMainWino(),
-      sensorWino: List(),
-      options: Map()
-    }
+      event: this.getEvents()
+    };
   },
 
   render: function() {
     return (
       <div app_container>
         <div buttonContainer>
-          <button>Set scale</button>
+          <button onClick={() => this.props.eventStart('scale')}>Set scale</button>
+          <button onClick={() => this.props.setEventData({type: 'MAP_CLICK', x: 80, y: 80})}>Set event Data</button>
         </div>
         <div className="Chart">
         </div>
@@ -57,7 +60,8 @@ export const Chart = React.createClass({
 function mapStateToProps(state) {
   return {
     winos: state.get('winos'),
-    options: state.get('options')
+    options: state.get('options'),
+    event: state.get('event')
   };
 }
 

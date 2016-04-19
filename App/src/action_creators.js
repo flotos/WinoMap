@@ -57,3 +57,17 @@ export function setScale(x, y) {
 		y
 	};
 }
+
+export function setEventData(action) {
+	return {
+		type: 'SET_EVENT_DATA',
+		action
+	};
+}
+
+export function eventStart(eventType) {
+	return {
+		type: 'EVENT_START',
+		eventType
+	};
+}

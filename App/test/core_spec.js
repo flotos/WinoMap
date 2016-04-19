@@ -2,7 +2,8 @@ import {List, Map} from 'immutable';
 import {expect} from 'chai';
 import {
 setWinos, addWino, moveWino, delWino, setMainWino,
-togglePrecision, setScale
+togglePrecision, setScale,
+setEvent, setEventData, eventStart
 } from '../src/core';
 
 describe('application logic', () => {
@@ -204,6 +205,63 @@ describe('application logic', () => {
 
       });
     });
+  });
+
+  describe('Event', () => {
+    const EventState = Map({
+      type: 'none',
+      data: Map()
+    });
+
+    describe('setEvent', () => {
+      it('set the current event, with the right datas', () => {
+        const newEvent = Map({
+          type: 'setScale',
+          data: Map({
+            firstPoint: '',
+            secondPoint: ''
+          })
+        });
+        const nextState = setEvent(EventState, newEvent);
+        expect(nextState).to.equal(newEvent);
+
+      });
+    });
+
+    describe('setEventData', () => {
+      it('changes the current event datas', () => {
+        const newDatas = Map({
+          
+        });
+        const nextState = setEventData(EventState, newDatas);
+        expect(nextState).to.equal(Map({
+            type: 'none',
+            data: Map({
+              firstPoint: '500',
+              secondPoint: '150'
+            })
+          })
+        );
+
+      });
+    });
+
+    describe('eventStart', () => {
+      it('Initialise the event values', () => {
+        const event = 'scale';
+        const nextState = eventStart(EventState, event);
+        expect(nextState).to.equal(Map({
+            type: 'scale',
+            data: Map({
+              firstPoint: '',
+              secondPoint: ''
+            })
+          })
+        );
+
+      });
+    });
+
   });
 
 });

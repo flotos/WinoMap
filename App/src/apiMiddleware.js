@@ -6,6 +6,7 @@ import http from 'http';
 * @param: state Map store the state of the application
 */
 export default store => next => action => {
+    //If the action intercepted is the API call
     if(action.type == 'API_REQUEST'){
     	let x;
     	let y;
@@ -30,5 +31,7 @@ export default store => next => action => {
 
         http.request(options, callback).end();
     }
+    console.log(action);
+
     return next(action)
 }

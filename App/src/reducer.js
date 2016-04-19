@@ -1,6 +1,8 @@
 import { combineReducers } from 'redux';
 import {Map, List} from 'immutable';
-import {setWinos, addWino, delWino, moveWino, setMainWino, togglePrecision, setScale, setOptions, apiRequest } from './core';
+import {setWinos, addWino, delWino, moveWino, setMainWino,
+togglePrecision, setScale, setOptions, apiRequest,
+setEvent, setEventData, eventStart } from './core';
 
 function winos(state = List(), action){
   switch(action.type){
@@ -14,8 +16,6 @@ function winos(state = List(), action){
       return moveWino(state, action.id, action.x, action.y);
     case 'SET_MAIN_WINO':
       return setMainWino(state, action.id);
-    /*case 'API_REQUEST':
-      return apiRequest(state);*/
   }
   return state;
 }
@@ -32,9 +32,20 @@ function options(state = Map(), action){
   return state;
 }
 
+function event(state = Map(), action){
+  switch(action.type){
+    case 'SET_EVENT_DATA':
+      return setEventData(state, action.action);
+    case 'EVENT_START':
+      return eventStart(state, action.eventType);
+  }
+  return state;
+}
+
 export default function reducer(state = Map(), action) {
   return Map({
     winos: winos(state.get('winos'), action),
-    options: options(state.get('options'), action)
+    options: options(state.get('options'), action),
+    event: event(state.get('event'), action)
   });
 }
