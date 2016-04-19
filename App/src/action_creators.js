@@ -49,6 +49,7 @@ export function togglePrecision() {
 		type: 'TOGGLE_PRECISION'
 	};
 }
+
 export function setScale(x, y) {
 	return {
 		type: 'SET_SCALE',

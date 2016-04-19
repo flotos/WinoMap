@@ -13,7 +13,7 @@ export const Localization = React.createClass({
 		return this.props.winos || []
 	},
 	render: function() {
-		const newWino = Map({
+		/*const newWino = Map({
 			id: 9,
 			x: 1,
 			y: 2,
@@ -33,7 +33,7 @@ export const Localization = React.createClass({
 		    y:2,
 		    main: false
 		  })
-		);
+		);*/
 
 		return <div className="localization">
 			{this.getWinos().map(wino =>
@@ -41,13 +41,8 @@ export const Localization = React.createClass({
 					x: {wino.get('x')}<br/>
 					y: {wino.get('y')}<br/>
 					main: {wino.get('main')}<br/>
-					<button onClick={() => this.props.delWino(wino.get('id'))}>deletes a wino</button>
-					<button onClick={() => this.props.moveWino(wino.get('id'),80,50)}>Move 1st wino</button>
-					<button onClick={() => this.props.setMainWino(wino.get('id'))}>set as main wino</button>
 				</h1>
 			)}
-			<button onClick={() => this.props.addWino(newWino)}>Add a wino</button>
-			<button onClick={() => this.props.setWinos(newWinos)}>set winos</button>
 		</div>;
 	}
 });

@@ -4,7 +4,7 @@ import {createStore} from 'redux';
 import {Provider} from 'react-redux';
 import reducer from './reducer';
 import {Map, List} from 'immutable';
-import {LocalizationContainer} from './components/Localization';
+import {ChartContainer} from './components/Chart';
 
 const store = createStore(reducer);
 
@@ -12,9 +12,9 @@ const store = createStore(reducer);
 var winos = List.of(
   Map({
     id: 1,
-    x:50,
-    y:25,
-    main: false
+    x:250,
+    y:100,
+    main: true
   }),
   Map({
     id: 2,
@@ -33,7 +33,14 @@ store.dispatch({type: 'SET_MOVABLE', id:1})
 
 ReactDOM.render(
 	<Provider store={store}>
-		<LocalizationContainer />
+		<ChartContainer />
 	</Provider>,
 	document.getElementById('app')
 );
+/*
+ReactDOM.render(
+  <Provider store={store}>
+    <LocalizationContainer />
+  </Provider>,
+  document.getElementById('app')
+);*/
