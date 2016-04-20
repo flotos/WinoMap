@@ -93,13 +93,23 @@ export function togglePrecision(state){
 }
 
 /**
-* Change the scale of the plan
+* Change the scale of the plan from two points, the first one placed at [0,0]
+* and the second one at [1,1]
 * @param: state Map store the state of the application
-* @param: newX integer new ratio for X axis
-* @param: newY integer new ratio for Y axis
+* @param: firstPoint integer first point
+* @param: secondPoint integer second point
 */
-export function setScale(state, newX, newY){
-	return state.set('scale', List.of(newX,newY));
+export function setScale(state, firstPoint, secondPoint){
+	let offsetX = firstPoint.get(0);
+	let offsetY = firstPoint.get(1);
+	let ratioX = secondPoint.get(0)-firstPoint.get(0);
+	let ratioy = secondPoint.get(1)-firstPoint.get(1);
+	let data = Map({
+		offset: List.of(offsetX, offsetY),
+		ratio: List.of(ratioX, ratioy)
+	});
+	console.log( "" + state.set('scale', data));
+	return state.set('scale', data);
 }
 
 /**

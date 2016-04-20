@@ -21,7 +21,10 @@ describe('reducer', () => {
       options: Map({
         precisionMode: "point",
         plan: "bat_c",
-        scale: List.of(2,3)
+        scale: Map({
+            ratio: List.of(2,3),
+            offset: List.of(4,5)
+          })
       }),
       event: Map({
         type: 'scale',
@@ -67,7 +70,10 @@ describe('reducer', () => {
         options: Map({
           precisionMode: "point",
           plan: "bat_c",
-          scale: List.of(2,3)
+          scale: Map({
+            ratio: List.of(2,3),
+            offset: List.of(4,5)
+          })
         }),
         event: Map({
           type: 'scale',
@@ -100,7 +106,10 @@ describe('reducer', () => {
           options: Map({
             precisionMode: "point",
             plan: "bat_c",
-            scale: List.of(2,3)
+            scale: Map({
+              ratio: List.of(2,3),
+              offset: List.of(4,5)
+            })
           })
         },
         {type: 'TOGGLE_PRECISION', id: 1},
@@ -150,7 +159,10 @@ describe('reducer', () => {
         options: Map({
           precisionMode: "circle",
           plan: "bat_c",
-          scale: List.of(2,3)
+          scale: Map({
+            ratio: List.of(2,3),
+            offset: List.of(4,5)
+          })
         }),
         event: Map({
           type: 'scale',

@@ -27,7 +27,7 @@ function options(state = Map(), action){
     case 'TOGGLE_PRECISION':
       return togglePrecision(state);
     case 'SET_SCALE':
-      return setScale(state, action.x, action.y);
+      return setScale(state, action.firstPoint, action.secondPoint);
   }
   return state;
 }

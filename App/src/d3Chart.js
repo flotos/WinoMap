@@ -19,16 +19,14 @@ export const createD3Chart = function(el, props, state) {
   //Click listenners
   function mouseDown() {
     let coord = d3.mouse(d3.select('#inside').node());
-    console.log(coord);
+    //console.log(coord);
     state.onMapClick({type: 'MAP_CLICK', x: coord[0], y: coord[1]});
   }
    
+  //placeholders
   function mouseUp() {
-    console.log("mouseUp");
   }
-   
   function mouseClick() {
-    console.log("mouseClick");
   }
 
   //Draw the elements here
@@ -43,12 +41,12 @@ export const createD3Chart = function(el, props, state) {
               .attr("id", "i1")
                         .attr("cx", 0)
                         .attr("cy", 0)
-                        .attr("r", 10);
+                        .attr("r", 0);
       var indicatorTwo = d3.select("#inside").append("circle")
               .attr("id", "i2")
                         .attr("cx", 0)
                         .attr("cy", 0)
-                        .attr("r", 10);
+                        .attr("r", 0);
     }); 
   });
 
@@ -65,16 +63,26 @@ export const updateD3Chart = function(el, state) {
   d3.select('#marker').attr('cx', state.mainWino.get('x'))
                       .attr('cy', state.mainWino.get('y'))
   if(state.event.size != 0){
+
     if(state.event.get('type') == 'scale'){
+      //If we are using the scale tool
       if(state.event.get('data').get('firstPoint') != ''){
+        //If first point is already defined
         d3.select('#i1').attr('cx', state.event.get('data').get('firstPoint').get(0))
-                        .attr('cy', state.event.get('data').get('firstPoint').get(1));
+                        .attr('cy', state.event.get('data').get('firstPoint').get(1))
+                        .attr('r', 4);
+        if(state.event.get('data').get('secondPoint') != ''){
+          //If second point is already defined
+          d3.select('#i2').attr('cx', state.event.get('data').get('secondPoint').get(0))
+                          .attr('cy', state.event.get('data').get('secondPoint').get(1))
+                          .attr('r', 4);
+        }
+      }else{
+        //If both are not defined, we clear them, reducing their radius to 0.
+        d3.select('#i1').attr('r', 0);
+        d3.select('#i2').attr('r', 0);
       }
 
-      if(state.event.get('data').get('secondPoint') != ''){
-      d3.select('#i2').attr('cx', state.event.get('data').get('secondPoint').get(0))
-                      .attr('cy', state.event.get('data').get('secondPoint').get(1));
-      }
     }
   }
 };

@@ -44,11 +44,24 @@ export const Chart = React.createClass({
     };
   },
 
+  getButtons: function(){
+    if(this.getEvents() != {}){
+      if(this.getEvents().get('type') == 'scale'){
+        if(this.getEvents().get('data').get('secondPoint') != ''){
+          const firstPoint = this.getEvents().getIn(['data','firstPoint']);
+          const secondPoint = this.getEvents().getIn(['data','secondPoint']);
+          return (<button onClick={() => this.props.setScale(firstPoint, secondPoint)}>Confirm Scale</button>);
+        }
+      }
+    }
+  },
+
   render: function() {
     return (
       <div app_container>
         <div buttonContainer>
-          <button onClick={() => this.props.eventStart('scale')}>Set scale</button>
+          <button onClick={() => this.props.eventStart('scale')}>Scale tool</button>
+              {this.getButtons()}
         </div>
         <div className="Chart">
         </div>

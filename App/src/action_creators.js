@@ -50,11 +50,11 @@ export function togglePrecision() {
 	};
 }
 
-export function setScale(x, y) {
+export function setScale(firstPoint, secondPoint) {
 	return {
 		type: 'SET_SCALE',
-		x,
-		y
+		firstPoint,
+		secondPoint
 	};
 }
 

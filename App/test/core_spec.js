@@ -171,7 +171,10 @@ describe('application logic', () => {
     const optionState = Map({
         precisionMode: "point",
         plan: "bat_c",
-        scale: List.of(2,3)
+        scale: Map({
+          ratio: List.of(2,3),
+          offset: List.of(4,5)
+        })
     });
 
     describe('togglePrecision', () => {
@@ -180,18 +183,17 @@ describe('application logic', () => {
         expect(nextState).to.equal(Map({
           precisionMode: "circle",
           plan: "bat_c",
-          scale: List.of(2,3)
+          scale: Map({
+            ratio: List.of(2,3),
+            offset: List.of(4,5)
+          })
         }));
 
 
       });
     });
-    
-    /*describe('uploadPlan', () => {
-      it('change the plan', () => {
-      });
-    });*/
 
+    /*
     describe('setScale', () => {
       it('changes the scale', () => {
         const scaleX = 4, scaleY = 5;
@@ -199,12 +201,15 @@ describe('application logic', () => {
         expect(nextState).to.equal(Map({
           precisionMode: "point",
           plan: "bat_c",
-          scale: List.of(4,5)
+         scale: Map({
+          ratio: List.of(2,3);
+          offset: List.of(4,5);
+        })
         }));
 
 
       });
-    });
+    });*/
   });
 
   describe('Event', () => {
@@ -236,7 +241,6 @@ describe('application logic', () => {
 
         var action = {type: 'MAP_CLICK', x: 80, y: 180};
         const afterState = setEventData(nextState, action);
-        console.log(afterState);
         expect(afterState).to.equal(Map({
             type: 'scale',
             data: Map({

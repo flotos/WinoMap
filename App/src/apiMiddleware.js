@@ -31,7 +31,7 @@ export default store => next => action => {
 
         http.request(options, callback).end();
     }
-    /*console.log('--- middleware ---')
+    /*console.log('--- middleware ---');
     console.log(action);*/
 
     return next(action)
