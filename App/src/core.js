@@ -49,10 +49,18 @@ export function delWino(state, idToDelete){
 * @param: x integer x coordinate
 * @param: y integer y coordinate
 */
-export function moveWino(state, idToMove, newX, newY){
+export function moveWino(state, idToMove, newX, newY, options){
+	console.log('inMoveWino');
+	console.log("" + options);
+	//console.log(newX + " - " + options.getIn(['scale', 'ratio', 0]) + " - " + options.getIn(['scale', 'offset', 0]));
+	let realX = (newX * options.getIn(['ratio', 0])) + options.getIn(['offset', 0]);
+	let realY = (newY * options.getIn(['ratio', 1])) + options.getIn(['offset', 1]);
+	//console.log('realX --- ');
+	//console.log(realX);
+
 	return state.withMutations(map => {
-		map.setIn([getRealWinoId(state, idToMove), "x"], newX)
-			.setIn([getRealWinoId(state, idToMove), "y"], newY);
+		map.setIn([getRealWinoId(state, idToMove), "x"], realX)
+			.setIn([getRealWinoId(state, idToMove), "y"], realY);
 	});
 }
 
@@ -137,6 +145,11 @@ export function setEventData(state, action) {
 					return nextState
 	    		}
 	    	}
+	    case 'NONE':
+	    	return Map({
+	    		type: 'none',
+	    		data: Map()
+	    	})
 	}
 	return state;
 }

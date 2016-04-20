@@ -4,7 +4,7 @@ import {setWinos, addWino, delWino, moveWino, setMainWino,
 togglePrecision, setScale, setOptions, apiRequest,
 setEvent, setEventData, eventStart } from './core';
 
-function winos(state = List(), action){
+function winos(state = List(), action, optionState){
   switch(action.type){
     case 'SET_WINOS':
       return setWinos(state, action.winos);
@@ -13,7 +13,8 @@ function winos(state = List(), action){
     case 'DEL_WINO':
       return delWino(state, action.id);
     case 'MOVE_WINO':
-      return moveWino(state, action.id, action.x, action.y);
+      console.log(optionState);
+      return moveWino(state, action.id, action.x, action.y, optionState.get('scale'));
     case 'SET_MAIN_WINO':
       return setMainWino(state, action.id);
   }
@@ -38,14 +39,18 @@ function event(state = Map(), action){
       return setEventData(state, action.action);
     case 'EVENT_START':
       return eventStart(state, action.eventType);
+
+    //
+    case 'SET_SCALE':
+      return setEventData(state, {type: 'NONE'});
   }
   return state;
 }
 
 export default function reducer(state = Map(), action) {
   return Map({
-    winos: winos(state.get('winos'), action),
     options: options(state.get('options'), action),
-    event: event(state.get('event'), action)
+    event: event(state.get('event'), action),
+    winos: winos(state.get('winos'), action, state.get('options'))
   });
 }

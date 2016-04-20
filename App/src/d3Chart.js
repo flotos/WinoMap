@@ -83,6 +83,10 @@ export const updateD3Chart = function(el, state) {
         d3.select('#i2').attr('r', 0);
       }
 
-    }
+    }else{
+        //Reset every components related to events if we aren't in an event.
+        d3.select('#i1').attr('r', 0);
+        d3.select('#i2').attr('r', 0);
+      }
   }
 };

@@ -44,10 +44,13 @@ export const Chart = React.createClass({
     };
   },
 
+  //Generate the buttons of the menu
   getButtons: function(){
     if(this.getEvents() != {}){
       if(this.getEvents().get('type') == 'scale'){
+        //If we are using the Scale tool
         if(this.getEvents().get('data').get('secondPoint') != ''){
+          //If the second point is placed
           const firstPoint = this.getEvents().getIn(['data','firstPoint']);
           const secondPoint = this.getEvents().getIn(['data','secondPoint']);
           return (<button onClick={() => this.props.setScale(firstPoint, secondPoint)}>Confirm Scale</button>);
