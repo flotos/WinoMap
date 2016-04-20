@@ -1,3 +1,5 @@
+import {List, Map} from 'immutable';
+
 // d3Chart.js
 export const createD3Chart = function(el, props, state) {
   //Initialise the svg element
@@ -16,7 +18,9 @@ export const createD3Chart = function(el, props, state) {
 
   //Click listenners
   function mouseDown() {
-    console.log(d3.mouse(this));
+    let coord = d3.mouse(d3.select('#inside').node());
+    console.log(coord);
+    state.onMapClick({type: 'MAP_CLICK', x: coord[0], y: coord[1]});
   }
    
   function mouseUp() {
@@ -61,14 +65,16 @@ export const updateD3Chart = function(el, state) {
   d3.select('#marker').attr('cx', state.mainWino.get('x'))
                       .attr('cy', state.mainWino.get('y'))
   if(state.event.size != 0){
-    console.log('size');
-    console.log(state.event);
-    if(state.event.type == 'scale'){
-      d3.select('#i1').attr('cx', state.event.data.firstPoint.get(0))
-                      .attr('cy', state.event.data.firstPoint.get(1));
+    if(state.event.get('type') == 'scale'){
+      if(state.event.get('data').get('firstPoint') != ''){
+        d3.select('#i1').attr('cx', state.event.get('data').get('firstPoint').get(0))
+                        .attr('cy', state.event.get('data').get('firstPoint').get(1));
+      }
 
-      d3.select('#i2').attr('cx', state.event.data.secondPoint.get(0))
-                      .attr('cy', state.event.data.secondPoint.get(1));
+      if(state.event.get('data').get('secondPoint') != ''){
+      d3.select('#i2').attr('cx', state.event.get('data').get('secondPoint').get(0))
+                      .attr('cy', state.event.get('data').get('secondPoint').get(1));
+      }
     }
   }
 };

@@ -39,7 +39,8 @@ export const Chart = React.createClass({
   getChartState: function() {
     return {
       mainWino: this.getMainWino(),
-      event: this.getEvents()
+      event: this.getEvents(),
+      onMapClick: this.props.setEventData
     };
   },
 
@@ -48,7 +49,6 @@ export const Chart = React.createClass({
       <div app_container>
         <div buttonContainer>
           <button onClick={() => this.props.eventStart('scale')}>Set scale</button>
-          <button onClick={() => this.props.setEventData({type: 'MAP_CLICK', x: 80, y: 80})}>Set event Data</button>
         </div>
         <div className="Chart">
         </div>

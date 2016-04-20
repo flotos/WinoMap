@@ -213,39 +213,6 @@ describe('application logic', () => {
       data: Map()
     });
 
-    describe('setEvent', () => {
-      it('set the current event, with the right datas', () => {
-        const newEvent = Map({
-          type: 'setScale',
-          data: Map({
-            firstPoint: '',
-            secondPoint: ''
-          })
-        });
-        const nextState = setEvent(EventState, newEvent);
-        expect(nextState).to.equal(newEvent);
-
-      });
-    });
-
-    describe('setEventData', () => {
-      it('changes the current event datas', () => {
-        const newDatas = Map({
-          
-        });
-        const nextState = setEventData(EventState, newDatas);
-        expect(nextState).to.equal(Map({
-            type: 'none',
-            data: Map({
-              firstPoint: '500',
-              secondPoint: '150'
-            })
-          })
-        );
-
-      });
-    });
-
     describe('eventStart', () => {
       it('Initialise the event values', () => {
         const event = 'scale';
@@ -255,6 +222,37 @@ describe('application logic', () => {
             data: Map({
               firstPoint: '',
               secondPoint: ''
+            })
+          })
+        );
+
+      });
+    });
+
+    describe('setEventData', () => {
+      it('changes the current event datas', () => {
+        const event = 'scale';
+        const nextState = eventStart(EventState, event);
+
+        var action = {type: 'MAP_CLICK', x: 80, y: 180};
+        const afterState = setEventData(nextState, action);
+        console.log(afterState);
+        expect(afterState).to.equal(Map({
+            type: 'scale',
+            data: Map({
+              firstPoint: List.of(80,180),
+              secondPoint: ''
+            })
+          })
+        );
+
+        action = {type: 'MAP_CLICK', x: 70, y: 190};
+        const againAfterState = setEventData(afterState, action);
+        expect(againAfterState).to.equal(Map({
+            type: 'scale',
+            data: Map({
+              firstPoint: List.of(80,180),
+              secondPoint: List.of(70,190)
             })
           })
         );

@@ -108,25 +108,27 @@ export function setScale(state, newX, newY){
 * @param: data string the action to handle
 */
 export function setEventData(state, action) {
-    console.log('setEventData');
+    let nextState
 	switch(action.type){
-
 		//If the map is clicked
 	    case 'MAP_CLICK':
 	    	//if the event scale is ongoing
-	    	if(state.getIn(['event','type']) == 'scale'){
+	    	if(state.get('type') == 'scale'){
 	    		//Test if we are defining the first or second point
-	    		if(state.getIn(['event','type','data','firstPoint']) == ''){
-	    			return state.setIn(['event','type','data','firstPoint'], 
-	    				List.of([action.x, action.y])
+	    		if(state.getIn(['data','firstPoint']) == ''){
+	    			nextState = state.setIn(['data','firstPoint'], 
+	    				List.of(action.x, action.y)
 	    			);
+					return nextState
 	    		}else{
-	    			return state.setIn(['event','type','data','secondPoint'], 
-	    				List.of([action.x, action.y])
+	    			nextState = state.setIn(['data','secondPoint'], 
+	    				List.of(action.x, action.y)
 	    			);
+					return nextState
 	    		}
 	    	}
 	}
+	return state;
 }
 
 /**

@@ -95,7 +95,7 @@ describe('reducer', () => {
             main: false
           })
         )},
-        {type: 'EVENT_START', event: 'scale'},
+        {type: 'EVENT_START', eventType: 'scale'},
         {type: 'SET_OPTIONS', 
           options: Map({
             precisionMode: "point",
