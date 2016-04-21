@@ -88,6 +88,19 @@ export const createD3Chart = function(el, props, state) {
                           .append("path")
                           .attr("id", "intersection");
 
+      //Draw the diagonal to make it visible later, to help to place the second point when using scale tool.
+      d3.select('#inside').append('line')
+                        .attr('id', 'diagonalHelper')
+                        .attr('x1', 0)
+                        .attr('y1', 0)
+                        .attr('x2', 0)
+                        .attr('y2', 0)
+                        .attr('stroke-width', 2)
+                        .attr('stroke-linecap', 'round')
+                        .attr('stroke-dasharray', '15,8')
+                        .attr('stroke', 'black')
+                        .style('opacity', 0);
+
     });
   });
 
@@ -125,6 +138,7 @@ export const updateD3Chart = function(el, state) {
   }else{
     //Circle mode
     if(state.mainWino != undefined){
+      d3.select('#intersection').transition().style("opacity",0);
       //If we have the winos datas
       
       //Store the datas of each circle to generate the intersection.
@@ -192,20 +206,50 @@ export const updateD3Chart = function(el, state) {
 
     if(state.event.get('type') == 'scale'){
       //If we are using the scale tool
+
       if(state.event.get('data').get('firstPoint') != ''){
+
+        //Store the first point coordinates
+        let firstX = state.event.get('data').get('firstPoint').get(0);
+        let firstY = state.event.get('data').get('firstPoint').get(1);
+
         //If first point is already defined
-        d3.select('#i1').attr('cx', state.event.get('data').get('firstPoint').get(0))
-                        .attr('cy', state.event.get('data').get('firstPoint').get(1))
+        d3.select('#i1').attr('cx', firstX)
+                        .attr('cy', firstY)
                         .attr('r', 4)
                         .style("opacity",1);
 
+        
+        //Place the line to the clicked point for better transition.
+        d3.select('#diagonalHelper').attr('x1', firstX)
+                                    .attr('y1', firstY)
+                                    .attr('x2', firstX)
+                                    .attr('y2', firstY)
+                                    .style('opacity', 0.2);
+
         if(state.event.get('data').get('secondPoint') != ''){
           //If second point is already defined
+
+          //Redraw the diagonal without transition
+          d3.select('#diagonalHelper').attr('x1', firstX-200)
+                                      .attr('y1', firstY-200)
+                                      .attr('x2', 200+firstX)
+                                      .attr('y2', 200+firstY)
+
           d3.select('#i2').attr('cx', state.event.get('data').get('secondPoint').get(0))
                           .attr('cy', state.event.get('data').get('secondPoint').get(1))
                           .attr('r', 4)
                           .style("opacity",1);
+        }else{
+          //Draw the diagonal with transition
+          d3.select('#diagonalHelper').transition()
+                                      .duration(1000)
+                                      .attr('x1', firstX-200)
+                                      .attr('y1', firstY-200)
+                                      .attr('x2', 200+firstX)
+                                      .attr('y2', 200+firstY)
         }
+
       }else{
         //If both are not defined, we clear them.
         d3.select('#i1').style("opacity",0);
@@ -213,7 +257,9 @@ export const updateD3Chart = function(el, state) {
       }
 
     }else{
+
         //Reset every components related to events if we aren't in an event.
+        d3.select('#diagonalHelper').transition().style("opacity",0);
         d3.select('#i1').transition().style("opacity",0);
         d3.select('#i2').transition().style("opacity",0);
       }

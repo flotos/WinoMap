@@ -9,8 +9,8 @@ var value = [0,0];
 
 var winos = [{
     id: 1,
-    x:2,
-    y:2,
+    x:0,
+    y:0,
     radius: 4,
     main: true
 },
