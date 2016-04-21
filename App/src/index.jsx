@@ -10,31 +10,22 @@ import {ChartContainer} from './components/Chart';
 const createStoreWithMiddleware = applyMiddleware(apiMiddleware)(createStore);
 const store = createStoreWithMiddleware(reducer);
 
-//Set initial values (for testing purpose)
-var winos = List.of(
-  Map({
-    id: 1,
-    x:250,
-    y:100,
-    main: true
-  }),
-  Map({
-    id: 2,
-    x:2,
-    y:2,
-    main: false
-  })
-);
+const options = Map({
+        precisionMode: "point",
+        precision: 0.2,
+        plan: "bat_c",
+        scale: Map({
+          ratio: List.of(1,1),
+          offset: List.of(0,0)
+        })
+    });
 
-store.dispatch({
-	type: 'SET_WINOS',
-	winos: winos
-});
-store.dispatch({type: 'SET_MOVABLE', id:1})
+//TODO: manage with store.getState if we are in circle or point mode for the API request
+store.dispatch({type: 'SET_OPTIONS', options: options});
 
 setInterval(() => {
   store.dispatch({type: 'API_REQUEST'})
-}, 3000);
+}, 5000);
 
 ReactDOM.render(
 	<Provider store={store}>
@@ -42,10 +33,3 @@ ReactDOM.render(
 	</Provider>,
 	document.getElementById('app')
 );
-/*
-ReactDOM.render(
-  <Provider store={store}>
-    <LocalizationContainer />
-  </Provider>,
-  document.getElementById('app')
-);*/

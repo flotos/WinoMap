@@ -5,15 +5,49 @@ var util = require('util');
 
 //Lets define a port we want to listen to
 const PORT=8042;
-var value = "[0,0]";
+var value = "[1,1]";
+
+var winos = [{
+    id: 1,
+    x:2,
+    y:2,
+    radius: 4,
+    main: true
+},
+{
+    id: 2,
+    x:0,
+    y:0,
+    radius: 1.5,
+    main: false
+},
+{
+    id: 3,
+    x:4,
+    y:0,
+    radius: 2,
+    main: false
+},
+{
+    id: 4,
+    x:2,
+    y:5,
+    radius: 1,
+    main: false
+}];
 
 //We need a function which handles requests and send response
 function handleRequest(request, response){
+
 	response.writeHead(200, {
 		'Access-Control-Allow-Origin': 'http://localhost:8080',
 		'Access-Control-Allow-Credentials': 'true'
 	});
-	response.write("" + value);
+	if(request.url == '/init/'){
+		response.write(JSON.stringify(winos));
+	}else{
+		response.write('' + value);
+	}
     response.end('');
 }
 

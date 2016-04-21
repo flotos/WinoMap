@@ -28,6 +28,10 @@ export const Chart = React.createClass({
     return this.props.event || {}
   },
 
+  getOptions: function() {
+    return this.props.options || {}
+  },
+
   getMainWino: function() {
     for(var i=0; i<this.getWinos().size; i++){
       if(this.getWinos().get(i).get('main') == true){
@@ -36,11 +40,19 @@ export const Chart = React.createClass({
     }
   },
 
+  getPrecision: function(){
+    return this.props.options.get('precision')*this.props.options.getIn(['scale','ratio',0]) || 0;
+  },
+
   getChartState: function() {
     return {
+      //Warning, precisionDifference only translate by the X ratio
+      precisionDifference: this.getPrecision(),
       mainWino: this.getMainWino(),
-      event: this.getEvents(),
-      onMapClick: this.props.setEventData
+      onMapClick: this.props.setEventData,
+      options: this.getOptions(),
+      winos: this.getWinos(),
+      event: this.getEvents()
     };
   },
 
@@ -63,6 +75,7 @@ export const Chart = React.createClass({
     return (
       <div app_container>
         <div buttonContainer>
+          <button onClick={() => this.props.togglePrecision()}>DisplayMode Toggle</button>
           <button onClick={() => this.props.eventStart('scale')}>Scale tool</button>
               {this.getButtons()}
         </div>

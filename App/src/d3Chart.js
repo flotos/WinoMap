@@ -4,16 +4,16 @@ import {List, Map} from 'immutable';
 export const createD3Chart = function(el, props, state) {
   //Initialise the svg element
   var svg = d3.select(el).append("svg")
-    .attr("id","plan")
-    .attr("viewBox","0 0 1000 1000")
-    .attr("preserveAspectRatio","xMidYMid meet")
-    .on("mousedown", mouseDown)
-    .on("mouseup", mouseUp)
-    .on("click", mouseClick)
-    .append("g")
-      .call(d3.behavior.zoom().scaleExtent([1, 3]).on("zoom", zoom))
-    .append("g")
-      .attr("id", "inside");
+                        .attr("id","plan")
+                        .attr("viewBox","0 0 1000 1000")
+                        .attr("preserveAspectRatio","xMidYMid meet")
+                        .on("mousedown", mouseDown)
+                        .on("mouseup", mouseUp)
+                        .on("click", mouseClick)
+                        .append("g")
+                          .call(d3.behavior.zoom().scaleExtent([1, 3]).on("zoom", zoom))
+                        .append("g")
+                          .attr("id", "inside");
 
 
   //Click listenners
@@ -33,20 +33,40 @@ export const createD3Chart = function(el, props, state) {
   $(function(){
     $("#inside").load("./res/planC.svg", function(){
       var circle = d3.select("#inside").append("circle")
-              .attr("id", "marker")
-                        .attr("cx", state.mainWino.get('x'))
-                        .attr("cy", state.mainWino.get('y'))
-                        .attr("r", 15);
+                                        .attr("id", "marker")
+                                        .attr("cx", -500)
+                                        .attr("cy", -500)
+                                        .attr("r", 15);
       var indicatorOne = d3.select("#inside").append("circle")
-              .attr("id", "i1")
-                        .attr("cx", 0)
-                        .attr("cy", 0)
-                        .attr("r", 0);
+                                              .attr("class", "cursor")
+                                              .attr("id", "i1")
+                                              .attr("cx", 0)
+                                              .attr("cy", 0)
+                                              .attr("r", 0);
       var indicatorTwo = d3.select("#inside").append("circle")
-              .attr("id", "i2")
-                        .attr("cx", 0)
-                        .attr("cy", 0)
-                        .attr("r", 0);
+                                              .attr("id", "i2")
+                                              .attr("class", "cursor")
+                                              .attr("cx", 0)
+                                              .attr("cy", 0)
+                                              .attr("r", 0);
+
+      //append the number of sensors we have. Currently it is fixed as 3.
+      for(var i=1;i<=3;i++){
+        //Draw the sensor point
+        d3.select("#inside").append("circle")
+                            .attr("id", "sensor"+i)
+                            .attr("class", "sensor")
+                            .attr("cx", -5)
+                            .attr("cy", -5)
+                            .attr("r", 3);
+        //Draw the sensor area
+        d3.select("#inside").append("circle")
+                            .attr("id", "sensorArea"+i)
+                            .attr("class", "area")
+                            .attr("cx", -5)
+                            .attr("cy", -5)
+                            .attr("r", 0);
+      }
     }); 
   });
 
@@ -60,8 +80,51 @@ export const createD3Chart = function(el, props, state) {
 
 //Update the elements depending of the state.
 export const updateD3Chart = function(el, state) {
-  d3.select('#marker').attr('cx', state.mainWino.get('x'))
-                      .attr('cy', state.mainWino.get('y'))
+
+  //Circle or Point mode
+  if(state.options.get('precisionMode') == 'point'){
+    //Point mode
+    if(state.mainWino != undefined){
+      //If we have the winos datas
+      d3.select('#marker').attr('cx', state.mainWino.get('x'))
+                          .attr('cy', state.mainWino.get('y'))
+                          .attr('r', 15);
+    }
+
+    //Clear the Circle mode elements
+    for(var i=1;i<=3;i++){
+      d3.select('#sensor'+i).attr('r', 0);
+      d3.select('#sensorArea'+i).attr('r', 0);
+    }
+
+  }else{
+    //Circle mode
+    if(state.mainWino != undefined){
+      //If we have the winos datas
+      
+      //Place a blue circle for each Sensors winos
+      for(var i=0;i<state.winos.size;i++){
+        if(state.winos.get(i).get('main') != true){
+          //If it isn't the main wino, update the point and area
+          d3.select('#sensor'+i).attr('cx', state.winos.get(i).get('x'))
+                                .attr('cy', state.winos.get(i).get('y'))
+                                .attr('r', 3)
+
+          //Warning, is only translated by the X ratio
+          d3.select('#sensorArea'+i).attr('cx', state.winos.get(i).get('x'))
+                                    .attr('cy', state.winos.get(i).get('y'))
+                                    //.attr('r', state.winos.get(i).get('radius'));
+                                    .attr('r', state.winos.get(i).get('radius'));
+        }
+      }
+    }
+
+    //Clear the Point mode elements
+    d3.select('#marker').attr('r', 0);
+  }
+
+
+  //Toolbar tools
   if(state.event.size != 0){
 
     if(state.event.get('type') == 'scale'){

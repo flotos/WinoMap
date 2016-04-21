@@ -1,4 +1,4 @@
-import {List, Map} from 'immutable';
+import {List, Map, toJSON} from 'immutable';
 
 /**
 * Return the position in the "winos" list of a wino
@@ -19,9 +19,24 @@ function getRealWinoId(state, idToFind){
 * @param: state Map store the state of the application
 * @param: winos List the winos
 */
-export function setWinos(state, winos) {
-  	return winos;
+export function setWinos(state, winos, options = Map({
+													offset: List(0,0),
+													ratio: List(1,1)
+})){
+	//update each winos coordinates depending on the scale.
+	let nextState = winos;
+	for(var i=0;i<winos.size;i++){
+		nextState = nextState.withMutations(map => {
+			map.updateIn([i,'x'], newX => newX = (newX * options.getIn(['ratio', 0])) + options.getIn(['offset', 0]))
+				.updateIn([i,'y'], newY => newY = (newY * options.getIn(['ratio', 1])) + options.getIn(['offset', 1]))
+				.updateIn([i,'radius'], radius => radius = (radius * options.getIn(['ratio', 1])) + options.getIn(['offset', 1]));
+		});
+	}
+	console.log(nextState.toJSON());
+  	return nextState;
 }
+
+
 
 /**
 * Add a new wino in the state.
@@ -49,14 +64,13 @@ export function delWino(state, idToDelete){
 * @param: x integer x coordinate
 * @param: y integer y coordinate
 */
-export function moveWino(state, idToMove, newX, newY, options){
-	console.log('inMoveWino');
-	console.log("" + options);
-	//console.log(newX + " - " + options.getIn(['scale', 'ratio', 0]) + " - " + options.getIn(['scale', 'offset', 0]));
+export function moveWino(state, idToMove, newX, newY, options = Map({
+																	ratio: List.of(1,1),
+																	offset: List.of(0,0)
+																	}))
+																{
 	let realX = (newX * options.getIn(['ratio', 0])) + options.getIn(['offset', 0]);
 	let realY = (newY * options.getIn(['ratio', 1])) + options.getIn(['offset', 1]);
-	//console.log('realX --- ');
-	//console.log(realX);
 
 	return state.withMutations(map => {
 		map.setIn([getRealWinoId(state, idToMove), "x"], realX)
@@ -77,6 +91,9 @@ export function setMainWino(state, id){
 	nextState = nextState.setIn([getRealWinoId(state,id), 'main'], true);
 	return nextState;
 }
+
+
+//=== OPTIONS
 
 
 /**
@@ -104,21 +121,32 @@ export function togglePrecision(state){
 * Change the scale of the plan from two points, the first one placed at [0,0]
 * and the second one at [1,1]
 * @param: state Map store the state of the application
-* @param: firstPoint integer first point
-* @param: secondPoint integer second point
+* @param: firstPoint List first point
+* @param: secondPoint List second point
 */
 export function setScale(state, firstPoint, secondPoint){
+	return state.set('scale', generateScaleMap(firstPoint, secondPoint));
+}
+
+/**
+* Generate a map with offset and ratio
+* @param: firstPoint List first point
+* @param: secondPoint List second point
+*/
+function generateScaleMap(firstPoint, secondPoint){
 	let offsetX = firstPoint.get(0);
 	let offsetY = firstPoint.get(1);
 	let ratioX = secondPoint.get(0)-firstPoint.get(0);
 	let ratioy = secondPoint.get(1)-firstPoint.get(1);
-	let data = Map({
+	return Map({
 		offset: List.of(offsetX, offsetY),
 		ratio: List.of(ratioX, ratioy)
 	});
-	console.log( "" + state.set('scale', data));
-	return state.set('scale', data);
 }
+
+
+//=== EVENTS
+
 
 /**
 * Manage what to do on the Event depending of the action

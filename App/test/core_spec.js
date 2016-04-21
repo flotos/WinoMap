@@ -170,6 +170,7 @@ describe('application logic', () => {
   describe('options', () => {
     const optionState = Map({
         precisionMode: "point",
+        precision: 0.2,
         plan: "bat_c",
         scale: Map({
           ratio: List.of(2,3),
@@ -182,6 +183,7 @@ describe('application logic', () => {
         const nextState = togglePrecision(optionState);
         expect(nextState).to.equal(Map({
           precisionMode: "circle",
+          precision: 0.2,
           plan: "bat_c",
           scale: Map({
             ratio: List.of(2,3),
