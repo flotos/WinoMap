@@ -25,7 +25,7 @@ store.dispatch({type: 'SET_OPTIONS', options: options});
 
 setInterval(() => {
   store.dispatch({type: 'API_REQUEST'})
-}, 5000);
+}, 500);
 
 ReactDOM.render(
 	<Provider store={store}>

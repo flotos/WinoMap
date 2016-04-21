@@ -5,7 +5,7 @@ var util = require('util');
 
 //Lets define a port we want to listen to
 const PORT=8042;
-var value = "[1,1]";
+var value = [0,0];
 
 var winos = [{
     id: 1,
@@ -18,21 +18,21 @@ var winos = [{
     id: 2,
     x:0,
     y:0,
-    radius: 1.5,
+    radius: 2,
     main: false
 },
 {
     id: 3,
     x:4,
     y:0,
-    radius: 2,
+    radius:4,
     main: false
 },
 {
     id: 4,
-    x:2,
-    y:5,
-    radius: 1,
+    x:0,
+    y:4,
+    radius: 4,
     main: false
 }];
 
@@ -46,7 +46,7 @@ function handleRequest(request, response){
 	if(request.url == '/init/'){
 		response.write(JSON.stringify(winos));
 	}else{
-		response.write('' + value);
+		response.write('[' + value + ']');
 	}
     response.end('');
 }
@@ -64,5 +64,15 @@ process.stdin.resume();
 process.stdin.setEncoding('utf8');
 process.stdin.on('data', function (text) {
 	console.log('received data:', util.inspect(text));
-	value = text;
+	if(text == "\u001b\[A\n"){
+		value[1] -= 1;
+	}else if(text == "\u001b\[C\n"){
+		value[0] += 1;
+	}else if(text == "\u001b\[B\n"){
+		value[1] += 1;
+	}else if(text == "\u001b\[D\n"){
+		value[0] -= 1;
+	}else{
+		value = JSON.parse(text);
+	}
 });

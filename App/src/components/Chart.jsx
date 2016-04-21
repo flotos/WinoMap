@@ -35,6 +35,7 @@ export const Chart = React.createClass({
   getMainWino: function() {
     for(var i=0; i<this.getWinos().size; i++){
       if(this.getWinos().get(i).get('main') == true){
+        console.log()
         return this.props.winos.get(i);
       }
     }
@@ -47,7 +48,7 @@ export const Chart = React.createClass({
   getChartState: function() {
     return {
       //Warning, precisionDifference only translate by the X ratio
-      precisionDifference: this.getPrecision(),
+      scaledPrecision: this.getPrecision(),
       mainWino: this.getMainWino(),
       onMapClick: this.props.setEventData,
       options: this.getOptions(),

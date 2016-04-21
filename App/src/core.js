@@ -29,10 +29,9 @@ export function setWinos(state, winos, options = Map({
 		nextState = nextState.withMutations(map => {
 			map.updateIn([i,'x'], newX => newX = (newX * options.getIn(['ratio', 0])) + options.getIn(['offset', 0]))
 				.updateIn([i,'y'], newY => newY = (newY * options.getIn(['ratio', 1])) + options.getIn(['offset', 1]))
-				.updateIn([i,'radius'], radius => radius = (radius * options.getIn(['ratio', 1])) + options.getIn(['offset', 1]));
+				.updateIn([i,'radius'], radius => radius = (radius * options.getIn(['ratio', 1])));
 		});
 	}
-	console.log(nextState.toJSON());
   	return nextState;
 }
 
