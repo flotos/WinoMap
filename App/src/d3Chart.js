@@ -97,8 +97,8 @@ export const createD3Chart = function(el, props, state) {
                         .attr('y2', 0)
                         .attr('stroke-width', 2)
                         .attr('stroke-linecap', 'round')
-                        .attr('stroke-dasharray', '15,8')
-                        .attr('stroke', 'black')
+                        .attr('stroke-dasharray', '15,6')
+                        .attr('stroke', 'green')
                         .style('opacity', 0);
 
     });
@@ -231,10 +231,10 @@ export const updateD3Chart = function(el, state) {
           //If second point is already defined
 
           //Redraw the diagonal without transition
-          d3.select('#diagonalHelper').attr('x1', firstX-200)
-                                      .attr('y1', firstY-200)
-                                      .attr('x2', 200+firstX)
-                                      .attr('y2', 200+firstY)
+          d3.select('#diagonalHelper').attr('x1', firstX-400)
+                                      .attr('y1', firstY-400)
+                                      .attr('x2', 400+firstX)
+                                      .attr('y2', 400+firstY)
 
           d3.select('#i2').attr('cx', state.event.get('data').get('secondPoint').get(0))
                           .attr('cy', state.event.get('data').get('secondPoint').get(1))
@@ -243,15 +243,16 @@ export const updateD3Chart = function(el, state) {
         }else{
           //Draw the diagonal with transition
           d3.select('#diagonalHelper').transition()
-                                      .duration(1000)
-                                      .attr('x1', firstX-200)
-                                      .attr('y1', firstY-200)
-                                      .attr('x2', 200+firstX)
-                                      .attr('y2', 200+firstY)
+                                      .duration(300)
+                                      .attr('x1', firstX-400)
+                                      .attr('y1', firstY-400)
+                                      .attr('x2', 400+firstX)
+                                      .attr('y2', 400+firstY)
         }
 
       }else{
         //If both are not defined, we clear them.
+        d3.select('#diagonalHelper').style("opacity",0);
         d3.select('#i1').style("opacity",0);
         d3.select('#i2').style("opacity",0);
       }
