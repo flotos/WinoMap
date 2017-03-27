@@ -1,4 +1,5 @@
-Welcome to My First Repo
--------------------------------
-This repo is a practice repo I am using to learn bitbucket.
-You can access this repo with SSH or with HTTPS.
+WinoMap
+------
+This is a map displaying Wino (Arduino with aditionnal sensors), as well as the value of their sensors.
+This use the result of values calculated by the Winos themselves.
+It also displays the estimated position of some Winos, which only knows their distance to specific points.
